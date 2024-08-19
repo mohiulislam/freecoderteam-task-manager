@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <livewire:layout.navigation />
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <wireui:scripts />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @rappasoftTableStyles
+    @rappasoftTableThirdPartyStyles
+</head>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+<body>
+    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-slate-200 font-roboto">
+        @include('layouts.navigation')
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
+        <div class="flex flex-col flex-1 overflow-hidden">
+            @include('layouts.header')
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-200">
+                <div class="container px-6 py-8 mx-auto">
+                    @if (isset($header))
+                        <h3 class="mb-4 text-3xl font-medium text-gray-700">
+                            {{ $header }}
+                        </h3>
+                    @endif
+
+                    {{ $slot }}
+                </div>
             </main>
         </div>
-    </body>
+    </div>
+    @livewireScripts
+    @livewire('wire-elements-modal')
+    @stack('scripts')
+    <x-livewire-alert::scripts />
+    @rappasoftTableScripts
+    @rappasoftTableThirdPartyScripts
+
+</body>
+
 </html>
